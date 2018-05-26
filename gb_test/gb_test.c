@@ -240,9 +240,25 @@ void gbPoolDemo()
 	char* pData1 = gb_alloc(gbPoolAllocator, nBlockSize);
 	memset(pData1, 0x11, nBlockSize);
 
-
 	char* pData2 = gb_alloc(gbPoolAllocator, nBlockSize);
 	memset(pData2, 0x22, nBlockSize);
+
+	// free pool pData1 block 
+	gb_free(gbPoolAllocator, pData1);
+
+	// reuse pool pData1
+	char* pData1_2 = gb_alloc(gbPoolAllocator, nBlockSize);
+	memset(pData1_2, 0x33, nBlockSize);
+
+	GB_ASSERT(pData1 != pData1_2);
+
+	// free pool pData2 block 
+	gb_free(gbPoolAllocator, pData2);
+
+	// reuse pool pData2
+	char* pData2_2 = gb_alloc(gbPoolAllocator, nBlockSize);
+	memset(pData2_2, 0x44, nBlockSize);
+	GB_ASSERT(pData2 != pData2_2);
 
 	gb_pool_free(&gbpool);
 }
